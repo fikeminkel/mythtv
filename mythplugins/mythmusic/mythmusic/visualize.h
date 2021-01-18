@@ -45,6 +45,8 @@ extern "C" {
 
 #define SAMPLES_DEFAULT_SIZE 512
 
+#include <QGLWidget>
+
 class MainVisual;
 
 class VisualNode
@@ -226,7 +228,47 @@ class Squares : public Spectrum
     int   m_numberOfSquares   {16};
 };
 
+
+class Gears : public QGLWidget, public VisualBase
+{
+    // Draws some OpenGL gears and manipulates
+    // them based on audio data
+  public:
+    Gears();
+    //Gears(QObject *parent = 0);
+    ~Gears() override;
+
+    void resize(const QSize &size) override;
+    bool process(VisualNode *node) override;
+    bool draw(QPainter *p, const QColor &back) override;
+    void handleKeyPress(const QString &action) override
+   	 {(void) action;} 
+
+  protected:
+    void initializeGL() override;
+    void resizeGL( int, int ) override;
+    void paintGL() override;
+    void drawTheGears();
+		
+  private:
+    QColor startColor, targetColor;
+    QVector<QRect> rects;
+    QVector<double> magnitudes;
+    QSize m_size;
+    LogScale scale;
+    double scaleFactor, falloff;
+    int analyzerBarWidth;
+    GLfloat angle, view_roty;
+
+    fftw_plan lplan, rplan;
+    myth_fftw_float *lin, *rin;
+    myth_fftw_complex *lout, *rout;
+};
+
+
 #endif // FFTW3_SUPPORT
+
+
 
 class Piano : public VisualBase
 {
