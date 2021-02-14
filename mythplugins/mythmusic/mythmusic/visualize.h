@@ -234,8 +234,8 @@ class Gears : public QGLWidget, public VisualBase
     // Draws some OpenGL gears and manipulates
     // them based on audio data
   public:
-    Gears();
-    //Gears(QObject *parent = 0);
+    //Gears();
+    Gears(QWidget *parent = 0);
     ~Gears() override;
 
     void resize(const QSize &size) override;

@@ -1718,28 +1718,15 @@ static void gear( GLfloat inner_radius, GLfloat outer_radius, GLfloat width,
 static GLfloat view_rotx=20.0, view_rotz=0.0;
 static GLint gear1, gear2, gear3;
 
-
-
-//Gears::Gears(QWidget *parent) :
-Gears::Gears() 
+Gears::Gears(QWidget *parent) :
+    QGLWidget(parent)
+//Gears::Gears() 
 {
-
     falloff = 4.0;
     analyzerBarWidth = 10;
     m_fps = 60;
 
-    // Slightly trick bit: This *is* a Qt Qidget 
-    // (unlike spectrum, above) so we just use
-    // the Qt GL class.
-
-    //int screenwidth = 0, screenheight = 0;
-    //float wmult = 0.0, hmult = 0.0;
-
-    //gCoreContext->GetScreenSettings(screenwidth, wmult, screenheight, hmult);
-    //setGeometry(0, 0, 400, 300);
-    //setFixedSize(QSize(screenwidth, screenheight));
-
-    // commented by me: setGeometry(0, 0, parent->width(), parent->height());
+    setGeometry(0, 0, parent->width(), parent->height());
     angle = 0.0;
     view_roty = 30.0;
 
@@ -2020,8 +2007,8 @@ static class GearsFactory : public VisFactory
     VisualBase *create(MainVisual *parent, const QString &pluginName) const override // VisFactory
     {
 	(void)pluginName;
-        return new Gears();
-        //return new Gears(parent);
+        //return new Gears();
+        return new Gears(GetMythMainWindow());
     }
 }GearsFactory;
 
